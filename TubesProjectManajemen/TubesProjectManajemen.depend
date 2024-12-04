@@ -1,0 +1,34 @@
+# depslib dependency file v1.0
+1732870967 source:d:\telkom anu\semester 3\strukdat\tube\tubesprojectmanajemen\main.cpp
+	<iostream>
+	"ProMan.h"
+
+1732870967 d:\telkom anu\semester 3\strukdat\tube\tubesprojectmanajemen\proman.h
+	<iostream>
+
+1732867051 source:d:\telkom anu\semester 3\strukdat\tube\tubesprojectmanajemen\proman.cpp
+	<iostream>
+	"ProMan.h"
+
+1732892272 source:c:\file dimas\kuliah s1\semester 3\struktur data\tubes\tubesstdprogress40%(ipam version)\tubesprojectmanajemen\main.cpp
+	<iostream>
+	"ProMan.h"
+
+1732892367 c:\file dimas\kuliah s1\semester 3\struktur data\tubes\tubesstdprogress40%(ipam version)\tubesprojectmanajemen\proman.h
+	<iostream>
+
+1732892370 source:c:\file dimas\kuliah s1\semester 3\struktur data\tubes\tubesstdprogress40%(ipam version)\tubesprojectmanajemen\proman.cpp
+	<iostream>
+	"ProMan.h"
+
+1733297976 source:d:\telkom anu\semester 3\strukdat\tube\tubesrev1\tubesstdprogress40%_kelompok 2\tubesprojectmanajemen\proman.cpp
+	<iostream>
+	"ProMan.h"
+
+1733291138 d:\telkom anu\semester 3\strukdat\tube\tubesrev1\tubesstdprogress40%_kelompok 2\tubesprojectmanajemen\proman.h
+	<iostream>
+
+1733297779 source:d:\telkom anu\semester 3\strukdat\tube\tubesrev1\tubesstdprogress40%_kelompok 2\tubesprojectmanajemen\main.cpp
+	<iostream>
+	"ProMan.h"
+
