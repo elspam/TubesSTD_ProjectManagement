@@ -146,6 +146,11 @@ adrProgrammer findDataProgrammer(LPrg l, dataProgrammer x);
 adrProject findDataProject(LPrj &l, dataProject x);
 adrPenugasan findRelasiPenugasan(LPng &l, dataProject xPrj, dataProgrammer xPrg);
 
+//Edit data
+void editProgrammer(LPrg &l, dataProgrammer x);
+void editProject(LPrj &l, dataProject x);
+//void editPenugasan(LPng &l, dataProject x);
+
 //connect & disconnect
 void connect(LPng &png, LPrg prg, LPrj prj, dataProgrammer xPrg, dataProject xPrj);
 void disconnect(LPng &png, dataProgrammer xPrg, dataProject xPrj);

@@ -453,6 +453,32 @@ adrPenugasan findRelasiPenugasan(LPng &l, dataProject xPrj, dataProgrammer xPrg)
     return NULL;
 }
 
+//Edit data
+void editProgrammer(LPrg &l, dataProgrammer x){
+    adrProgrammer p = findDataProgrammer(l, x);
+    if(p == NULL){
+        cout << "Data dengan username :"<< x.username << "tidak ditemukan";
+    } else {
+        cout << "Data ditemukan. Silahkan masukan username baru"<< endl;
+        cout << "Username baru:";
+        cin >> infoPrg(p).username;
+        cout << "Data telah diperbaharui"<<endl;
+    }
+    viewDataProgrammer(l);
+}
+
+void editProject(LPrj &l, dataProject x){
+    adrProject p = findDataProject(l, x);
+    if(p == NULL){
+        cout<< "Project dengan nama :" << x.namaProject << "tidak ditemukan"<<endl;
+    } else {
+        cout<< "Data ditemukan. Masukkan data baru"<< endl;
+        cout << "Deadline baru:";
+        cin >> infoPrj(p).deadline;
+        cout << "Data telah diperbaharui" << endl;
+    }
+    viewDataProject(l);
+}
 
 //count data
 int countProgrammer(LPrg l){
