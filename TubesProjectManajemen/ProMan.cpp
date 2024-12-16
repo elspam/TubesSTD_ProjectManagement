@@ -4,26 +4,70 @@
 using namespace std;
 
 int menuLogin(){
-    cout<<"========MENU LOGIN========="<<endl;
+    cout<<"=============================================="<<endl;
+    cout<<"<<<<<********     MENU LOGIN     ********>>>>>"<<endl;
+    cout<<"=============================================="<<endl;
     cout<<"1. Login sebagai Admin"<<endl;
     cout<<"2. Login sebagai Manager"<<endl;
     cout<<"3. Login sebagai Programmer"<<endl;
+    cout<<"4. Exit"<<endl;
+    cout<<"----------------------------------------------"<<endl;
+    cout<<"Masukkan pilihan(1/2/3/4): ";
 
     int input = 0;
     cin >> input;
+    cout<<endl;
     return input;
 
 }
 
 int menuAdmin(){
-    cout<<"==========MENU ADMIN==========="<<endl;
+    cout<<"=============================================="<<endl;
+    cout<<"<<<<<********     MENU ADMIN     ********>>>>>"<<endl;
+    cout<<"=============================================="<<endl;
     cout<<"1. Insert Data Programmer "<<endl;
     cout<<"2. Insert Data Project "<<endl;
-    cout<<"4. Edit data programmer"<<endl;
-    cout<<"5. Edit data project"<<endl;
-    cout<<"6. Delete data programmer"<<endl;
-    cout<<"7. Delete data project"<<endl;
-    cout<<"8. View project "<<endl;
+    cout<<"3. Edit data programmer"<<endl;
+    cout<<"4. Edit data project"<<endl;
+    cout<<"5. Delete data programmer"<<endl;
+    cout<<"6. Delete data project"<<endl;
+    cout<<"7. View project "<<endl;
+    cout<<"8. View programmer"<<endl;
+    cout<<"9. Back"<<endl;
+    cout<<"----------------------------------------------"<<endl;
+    cout<<"Masukkan pilihan(1/2/3/4): ";
+
+    int input = 0;
+    cin >> input;
+    return input;
+}
+
+int menuManager(){
+    cout<<"=============================================="<<endl;
+    cout<<"<<<<<********    MENU MANAGER    ********>>>>>"<<endl;
+    cout<<"=============================================="<<endl;
+    cout<<"1. Input penugasan "<<endl;
+    cout<<"2. Cabut penugasan "<<endl;
+    cout<<"3. View detail penugasan programmer"<<endl;
+    cout<<"4. View detail penugasan project"<<endl;
+    cout<<"5. Edit status penugasan"<<endl;
+    cout<<"6. Back"<<endl;
+    cout<<"----------------------------------------------"<<endl;
+    cout<<"Masukkan pilihan(1/2/3/4): ";
+
+    int input = 0;
+    cin >> input;
+    return input;
+}
+
+int menuProgrammer(){
+    cout<<"=============================================="<<endl;
+    cout<<"<<<<<********   MENU PROGRAMMER  ********>>>>>"<<endl;
+    cout<<"=============================================="<<endl;
+    cout<<"1. Lihat detail penugasan"<<endl;
+    cout<<"2. Back"<<endl;
+    cout<<"----------------------------------------------"<<endl;
+    cout<<"Masukkan pilihan(1/2/3/4): ";
 
     int input = 0;
     cin >> input;
@@ -57,6 +101,7 @@ void createElmProject(dataProject y, adrProject &prj){
     prj = new project;
     infoPrj(prj).namaProject = y.namaProject;
     infoPrj(prj).deadline = y.deadline;
+    infoPrj(prj).status = y.status;
     nextPrj(prj) = NULL;
     prevPrj(prj) = NULL;
 }
@@ -65,6 +110,7 @@ void createElmPenugasan(adrProgrammer p, adrProject q, adrPenugasan &png){
     png = new penugasan;
     pPrg(png) = p;
     pPrj(png) = q;
+    infoPng(png).status = "on_going";
     nextPng(png) = NULL;
 }
 
@@ -141,7 +187,7 @@ void buildListProgrammer(LPrg &l){
         if (p==NULL){
             insertProgrammer(l, x);
         }else {
-            cout<<"Username ini sudah pernah dimasukkan"<<endl;
+            cout<<"Username ini sudah pernah dimasukkan! "<<endl;
         }
         i++;
 
@@ -165,6 +211,7 @@ void buildListProject(LPrj &l){
     cin >> x.namaProject;
     cout << "deadline (satuan hari): ";
     cin >> x.deadline;
+    x.status = "on_going";
     cout<<endl;
     if (firstPrj(l) == NULL){
         insertProject(l, x);
@@ -175,6 +222,7 @@ void buildListProject(LPrj &l){
         cin >> x.namaProject;
         cout << "deadline (satuan hari): ";
         cin >> x.deadline;
+        x.status = "on_going";
         cout<<endl;
         p = findDataProject(l,x);
         if (p==NULL){
@@ -201,126 +249,132 @@ void deleteFirstProgrammer(LPrg &l, adrProgrammer p){
         nextPrg(p) = NULL;
         prevPrg(firstPrg(l)) = NULL;
     }
+
 }
 
-void deleteLastProgrammer(LPrg &l, adrProgrammer p){
+void deleteLastProgrammer(LPrg &l, adrProgrammer q){
     if (firstPrg(l) == NULL){
         cout<<"Data kosong";
     }else if (firstPrg(l) == lastPrg(l)){
-        p = lastPrg(l);
+        q = lastPrg(l);
         firstPrg(l) = NULL;
         lastPrg(l) = NULL;
     }else {
-        p = lastPrg(l);
-        lastPrg(l) = prevPrg(p);
+        q = lastPrg(l);
+        lastPrg(l) = prevPrg(lastPrg(l));
         nextPrg(lastPrg(l))=NULL;
+        prevPrg(q) = NULL;
     }
+
 }
 
-void deleteAfterProgrammer(LPrg &l, adrProgrammer prec, adrProgrammer p){
-    if(nextPrg(prec) == lastPrg(l)){
-        deleteLastProgrammer(l,p);
+void deleteAfterProgrammer(LPrg &l, adrProgrammer prec, adrProgrammer r){
+    if (firstPrg(l) == NULL){
+        cout<<"List Kosong"<<endl;
+    }else if(nextPrg(prec) == lastPrg(l)){
+        deleteLastProgrammer(l,r);
     }else if (nextPrg(prec) == NULL) {
         cout<< "Tidak ada elemen setelah prec";
     }else{
-        p = nextPrg(prec);
-        nextPrg(prec) = nextPrg(p);
-        prevPrg(nextPrg(p)) = prec;
-        prevPrg(p) = NULL;
-        nextPrg(p) = NULL;
+        r = nextPrg(prec);
+        nextPrg(prec) = nextPrg(r);
+        prevPrg(nextPrg(r)) = prec;
+        prevPrg(r) = NULL;
+        nextPrg(r) = NULL;
 
     }
 }
 
-void deleteProgrammer(LPrg &l, dataProgrammer x){
-    adrProgrammer p;
-    p = findDataProgrammer(l,x);
-    if (p==NULL){
-        cout<<"Data yang ingin dihapus tidak ada dalam list";
+void deleteProgrammer(LPrg &l, dataProgrammer xPrg){
+    adrProgrammer adrPrg;
+    adrPrg = findDataProgrammer(l,xPrg);
+    if (adrPrg==NULL){
+        cout<<"Data yang ingin dihapus tidak ada dalam list"<<endl;
     }else{
-        if(p==firstPrg(l)){
-            deleteFirstProgrammer(l,p);
-        }else if (p == lastPrg(l)){
-            deleteLastProgrammer(l,p);
+        if(adrPrg==firstPrg(l)){
+            deleteFirstProgrammer(l,adrPrg);
+        }else if (adrPrg == lastPrg(l)){
+            deleteLastProgrammer(l,adrPrg);
         }else {
-            deleteAfterProgrammer(l,prevPrg(p),p);
+            deleteAfterProgrammer(l,prevPrg(adrPrg),adrPrg);
         }
+        cout<<"Data setelah dihapus: "<<endl;
+        viewDataProgrammer(l);
     }
 
-    cout<<"Data setelah dihapus: "<<endl;
-    viewDataProgrammer(l);
+
 }
 
 
 //delete data project
-void deleteFirstProject(LPrj &l, adrProject &p){
+void deleteFirstProject(LPrj &l, adrProject &a){
     if(firstPrj(l) == NULL ){
         cout<<"list Project Kosong!"<<endl;
     } else {
-        p = firstPrj(l);
+        a = firstPrj(l);
         if (firstPrj(l) == lastPrj(l)){
             firstPrj(l) = NULL;
             lastPrj(l) = NULL;
         } else {
-            firstPrj(l) = nextPrj(p);
+            a = firstPrj(l);
+            firstPrj(l) = nextPrj(a);
+            nextPrj(a) = NULL;
             prevPrj(firstPrj(l)) = NULL;
         }
     }
 }
 
-void deleteLastProject(LPrj &l, adrProject &p){
+void deleteLastProject(LPrj &l, adrProject &b){
     if(firstPrj(l)==NULL){
         cout<< "List project kosong!" << endl;
     } else if (firstPrj(l) == lastPrj(l)) {
-        p = firstPrj(l);
+        b = firstPrj(l);
         firstPrj(l) = NULL;
         lastPrj(l) = NULL;
     } else {
-        p = lastPrj(l);
-        lastPrj(l) = prevPrj(p);
-        prevPrj(p)= NULL;
-        nextPrj(lastPrj(l))== NULL;
+        b = lastPrj(l);
+        lastPrj(l) = prevPrj(b);
+        prevPrj(b)= NULL;
+        nextPrj(lastPrj(l)) = NULL;
     }
 
 }
 
-void deleteAfterProject(LPrj &l, adrProject prec, adrProject &p){
+void deleteAfterProject(LPrj &l, adrProject prec, adrProject &c){
     if(prec == NULL || nextPrj(prec) == NULL){
         cout << "tidak ada elemen setelah elemen ini" <<endl;
-    } else {
-        p = nextPrj(prec);
-        nextPrj(prec) = nextPrj(p);
-        if (nextPrj(p)!= NULL){
-            prevPrj(nextPrj(p)) = prec;
-        } else {
-            lastPrj(l) = prec;
-        }
+    } else if(nextPrj(prec) == lastPrj(l)){
+        deleteLastProject(l,c);
+    }else {
+        c = nextPrj(prec);
+        nextPrj(prec) = nextPrj(c);
+        prevPrj(nextPrj(c)) = prec;
+        prevPrj(c) = NULL;
+        nextPrj(c) = NULL;
     }
 }
 
-void deleteProject(LPrj &l, dataProject x) {
-    adrProject p;
-    p = findDataProject(l, x);
-    if(p == NULL){
-        cout<< "List project kosong"<<endl;
+void deleteProject(LPrj &l, dataProject xPrj) {
+    adrProject adrPrj;
+    adrPrj = findDataProject(l, xPrj);
+    if(adrPrj == NULL){
+        cout<< "Data yang ingin dihapus tidak ada dalam list "<<endl;
     }else {
-        if(p==firstPrj(l)){
-            deleteFirstProject(l,p);
-        }else if (p == lastPrj(l)){
-            deleteLastProject(l,p);
+        if(adrPrj==firstPrj(l)){
+            deleteFirstProject(l,adrPrj);
+        }else if (adrPrj == lastPrj(l)){
+            deleteLastProject(l,adrPrj);
         }else {
-            deleteAfterProject(l,prevPrj(p),p);
+            deleteAfterProject(l,prevPrj(adrPrj),adrPrj);
         }
+        cout<<"Data setelah dihapus: "<<endl;
+        viewDataProject(l);
     }
-    cout<<"Data setelah dihapus: "<<endl;
-    viewDataProject(l);
+
 }
 
 //delete data penugasan
 void deletePenugasan(LPng &l, adrPenugasan &p){
-    dataProgrammer xPrg;
-    dataProject xPrj;
-    p = findRelasiPenugasan(l,xPrj,xPrg);
     if (p==NULL){
         cout<<"Data yang ingin dihapus tidak ada dalam list";
     }else{
@@ -431,6 +485,7 @@ adrProgrammer findDataProgrammer(LPrg l, dataProgrammer x){
 
 }
 
+//find penugasan
 adrProject findDataProject(LPrj &l, dataProject x){
     adrProject p = firstPrj(l);
     while(p != NULL){
@@ -456,11 +511,12 @@ adrPenugasan findRelasiPenugasan(LPng &l, dataProject xPrj, dataProgrammer xPrg)
 //Edit data
 void editProgrammer(LPrg &l, dataProgrammer x){
     adrProgrammer p = findDataProgrammer(l, x);
+
     if(p == NULL){
         cout << "Data dengan username :"<< x.username << "tidak ditemukan";
     } else {
         cout << "Data ditemukan. Silahkan masukan username baru"<< endl;
-        cout << "Username baru:";
+        cout << "Username baru : ";
         cin >> infoPrg(p).username;
         cout << "Data telah diperbaharui"<<endl;
     }
@@ -473,11 +529,41 @@ void editProject(LPrj &l, dataProject x){
         cout<< "Project dengan nama :" << x.namaProject << "tidak ditemukan"<<endl;
     } else {
         cout<< "Data ditemukan. Masukkan data baru"<< endl;
-        cout << "Deadline baru:";
+        cout << "Deadline baru : ";
         cin >> infoPrj(p).deadline;
         cout << "Data telah diperbaharui" << endl;
     }
+    cout<<endl;
     viewDataProject(l);
+}
+
+void editPenugasan(LPng &l, LPrg prg, LPrj prj,  dataProgrammer xPrg, dataProject xPrj){
+    cout<< "============================================="<<endl;
+    cout<< "              Edit Status Penugasan          "<<endl;
+    cout<< "============================================="<<endl;
+    cout<< "Masukkan username: ";
+    cin>> xPrg.username;
+    cout<< "Masukkan project yang dikerjakan: ";
+    cin>> xPrj.namaProject;
+    adrPenugasan p = findRelasiPenugasan(l,xPrj, xPrg);
+    adrProject q = findDataProject(prj, xPrj);
+    dataPenugasan xPng;
+
+    if(p==NULL){
+        cout<<"Data penugasan tidak ditemukan"<<endl;
+    }else{
+        cout<<"Update status terkini: ";
+        cin>>infoPng(p).status;
+        infoPrj(q).status = infoPng(p).status;
+        cout<<"status diperbarui"<<endl;
+    }
+    cout<<endl;
+    cout<<"Data setelah update status: "<<endl;
+    cout<<endl;
+    viewPenugasanProgrammer(l,prg,prj);
+    viewPenugasanProject(l,prg,prj);
+
+
 }
 
 //count data
@@ -502,10 +588,8 @@ int countProject(LPrj l){
 }
 
 
-
 //Connect dan disconnect
 void connect(LPng &png, LPrg prg, LPrj prj, dataProgrammer xPrg, dataProject xPrj){
-
     adrPenugasan r;
     cout<< "Masukkan username: ";
     cin>> xPrg.username;
@@ -517,38 +601,62 @@ void connect(LPng &png, LPrg prg, LPrj prj, dataProgrammer xPrg, dataProject xPr
         if (p!=NULL && q!=NULL){
             createElmPenugasan(p, q, r);
             insertPenugasan(png, r);
-        }else if (p==NULL){
+        }if (p==NULL){
             cout<<"Data programmer yang anda masukkan tidak ada dalam list! "<<endl;
         }
-         cout<< "Masukkan username: ";
+        cout<< "Masukkan username: ";
         cin>> xPrg.username;
         if (xPrg.username == "selesai"){
             return;
         }
         cout<< "Masukkan project yang ditugaskan: ";
         cin>>xPrj.namaProject;
+        infoPng(r).status = "on going";
         p = findDataProgrammer(prg, xPrg);
         q = findDataProject(prj, xPrj);
     }
+    cout<<"Input penugasan berhasil :) "<<endl;
     cout<<endl;
 
 }
 
 void disconnect(LPng &png, LPrg prg, LPrj prj, dataProgrammer xPrg, dataProject xPrj){
+    cout<< "Masukkan username: ";
+    cin>> xPrg.username;
+    cout<< "Masukkan project yang ingin dicabut: ";
+    cin>>xPrj.namaProject;
     adrPenugasan p = findRelasiPenugasan(png,xPrj,xPrg);
-    if (p!=NULL){
+    while(xPrg.username != "selesai"){
+        if (p!=NULL){
+            deletePenugasan(png,p);
+        }else if (p==NULL){
+            cout<<"Data penugasan yang anda masukkan tidak ada dalam list! "<<endl;
+        }
+        cout<< "Masukkan username: ";
+        cin>> xPrg.username;
+       if (xPrg.username == "selesai"){
+            return;
+        }
+
+        cout<< "Masukkan project yang ingin dicabut: ";
+        cin>>xPrj.namaProject;
+        adrPenugasan p = findRelasiPenugasan(png,xPrj,xPrg);
 
     }
+    cout<<"Pencabutan penugasan berhasil :)"<<endl;
+    cout<<endl;
 
 }
 
-void viewPengugasan(LPng png, LPrg prg, LPrj prj){
+void viewPenugasanProgrammer(LPng png, LPrg prg, LPrj prj){
     adrProgrammer aPrg = firstPrg(prg);
 
     cout<< "============================================="<<endl;
-    cout<< "                View Penugasan               "<<endl;
+    cout<< "          View Penugasan Programmer          "<<endl;
     cout<< "============================================="<<endl;
-    cout << "Detail penugasan untuk programmer: "<<endl;
+    int jumPrg = countProgrammer(prg);
+    cout<<"Total programmer : "<< jumPrg <<endl;
+    cout<<endl;
     while (aPrg!=NULL){
         int tPenugasan = 0;
         cout<< "Username : " <<infoPrg(aPrg).username<<endl;
@@ -558,8 +666,9 @@ void viewPengugasan(LPng png, LPrg prg, LPrj prj){
         adrPenugasan aPng = firstPng(png);
         while(aPng!=NULL){
             if (pPrg(aPng)== aPrg){
-                cout<<infoPrj(pPrj(aPng)).namaProject<< " ";
-                cout<<"Deadline: "<<infoPrj(pPrj(aPng)).deadline<< " hari"<<endl;
+                cout<<infoPrj(pPrj(aPng)).namaProject<< ", ";
+                cout<<"Deadline: "<<infoPrj(pPrj(aPng)).deadline<< " hari, ";
+                cout<<"Status: "<<infoPng(aPng).status<<endl;
                 if (pPrj(aPng) !=NULL){
                     tPenugasan++;
                 }
@@ -573,3 +682,37 @@ void viewPengugasan(LPng png, LPrg prg, LPrj prj){
         aPrg = nextPrg(aPrg);
     }
 }
+
+void viewPenugasanProject(LPng png, LPrg prg, LPrj prj){
+    adrProject aPrj = firstPrj(prj);
+
+    cout<< "============================================="<<endl;
+    cout<< "            View Penugasan Project           "<<endl;
+    cout<< "============================================="<<endl;
+    while (aPrj!= NULL){
+        int tprogrammer = 0;
+        bool relation = false;
+        cout << "Project: "<< infoPrj(aPrj).namaProject<<endl;
+        cout << "Deadline: "<< infoPrj(aPrj).deadline<<endl;
+        cout << "Programmer yang mengerjakan: "<<endl;
+
+        adrPenugasan aPng = firstPng(png);
+        while(aPng!=NULL){
+            if(pPrj(aPng)==aPrj){
+                cout<<infoPrg(pPrg(aPng)).username<<" ";
+                cout<<"\nStatus: "<<infoPrj(pPrj(aPng)).status<<endl;
+                relation = true;
+                tprogrammer++;
+            }
+            aPng = nextPng(aPng);
+        }if (!relation){
+            cout << "Tidak ada"<<endl;
+            cout << "Status: "<<infoPrj(aPrj).status <<endl;
+        }
+
+        aPrj = nextPrj(aPrj);
+        cout<<endl;
+
+    }
+}
+

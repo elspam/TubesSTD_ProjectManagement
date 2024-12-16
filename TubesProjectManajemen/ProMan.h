@@ -3,6 +3,7 @@
 #include <iostream>
 #define infoPrg(l) l->infoPrg
 #define infoPrj(l) l->infoPrj
+#define infoPng(l) l->infoPng
 #define nextPrg(l) l->nextPrg
 #define nextPrj(l) l->nextPrj
 #define prevPrg(l) l->prevPrg
@@ -34,6 +35,12 @@ struct dataProgrammer {
 struct dataProject {
     string namaProject;
     int deadline;
+    string status;
+};
+
+//struct info dari penugasan
+struct dataPenugasan{
+    string status;
 };
 
 //struct elemen programmer
@@ -55,6 +62,7 @@ struct penugasan{
     adrProgrammer pPrg;
     adrProject pPrj;
     adrPenugasan nextPng;
+    dataPenugasan infoPng;
 };
 
 //struct list programmer
@@ -113,7 +121,7 @@ void deleteAfterPenugasan(LPng &l, adrPenugasan prec, adrPenugasan &p);
 //edit data
 void editProgrammer(LPrg &l, dataProgrammer x);
 void editProject(LPrj &l, dataProject x);
-void editPenugasan(LPng &l, dataProgrammer xPrg, dataProject xPrj);
+void editPenugasan(LPng &l, LPrg prg, LPrj prj, dataProgrammer xPrg, dataProject xPrj);
 
 //count data
 int countProgrammer(LPrg l);
@@ -122,7 +130,8 @@ int countProject(LPrj l);
 //view data
 void viewDataProgrammer(LPrg l);
 void viewDataProject(LPrj l);
-void viewPengugasan(LPng png, LPrg prg, LPrj prj);
+void viewPenugasanProgrammer(LPng png, LPrg prg, LPrj prj);
+void viewPenugasanProject(LPng png, LPrg prg, LPrj prj);
 
 
 //create list
@@ -146,13 +155,9 @@ adrProgrammer findDataProgrammer(LPrg l, dataProgrammer x);
 adrProject findDataProject(LPrj &l, dataProject x);
 adrPenugasan findRelasiPenugasan(LPng &l, dataProject xPrj, dataProgrammer xPrg);
 
-//Edit data
-void editProgrammer(LPrg &l, dataProgrammer x);
-void editProject(LPrj &l, dataProject x);
-//void editPenugasan(LPng &l, dataProject x);
 
 //connect & disconnect
 void connect(LPng &png, LPrg prg, LPrj prj, dataProgrammer xPrg, dataProject xPrj);
-void disconnect(LPng &png, dataProgrammer xPrg, dataProject xPrj);
+void disconnect(LPng &png,LPrg prg, LPrj prj, dataProgrammer xPrg, dataProject xPrj);
 
 #endif // PROMAN_H_INCLUDED
